@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
+
+# Node (only if Phase 2 / Astro is added later)
+node_modules/
+dist/
+.astro/
