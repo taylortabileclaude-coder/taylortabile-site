@@ -13,13 +13,19 @@ edit / add a file  →  git push  →  live
 ## Structure
 
 ```
-index.html        → the homepage (served at /)
-about.html etc.   → any top-level page (about.html → /about)
+index.html                    → the homepage (served at /)
+marketing-roi-calculator.html → /marketing-roi-calculator
+about.html etc.               → any top-level page (about.html → /about)
 blog/
-  index.html      → the blog listing page (/blog)
-  <post>.html     → one file per post (/blog/<post>)
-assets/           → shared images / css / js
+  index.html                  → the blog listing page (/blog)
+  <slug>.html                 → one file per post (/blog/<slug>)
+  _template.html              → post skeleton (NOT published — see .vercelignore)
+vercel.json                   → cleanUrls on (pages serve without .html)
+.vercelignore                 → files kept in repo but not deployed (_*.html)
 ```
+
+Clean URLs are on, so link to pages **without** `.html` (`/blog`, `/marketing-roi-calculator`),
+and always use **relative** internal links (`/`, `/#contact`) — never hard-code the domain.
 
 ## Add a page
 
@@ -27,11 +33,23 @@ assets/           → shared images / css / js
 2. `git add -A && git commit -m "Add page" && git push`
 3. Live at `/something`.
 
-## Add a blog post
+## Publishing a blog post (the workflow)
 
-1. Create `blog/my-post.html` (copy `blog/welcome.html` as a starting template).
-2. Add a matching `<li>` link inside `blog/index.html`.
-3. `git add -A && git commit -m "New post: my-post" && git push`
+Posts are full standalone HTML files built from `blog/_template.html`. The fast path
+is to let **Claude** do it:
+
+> Ask Claude: *"write a blog post about \<topic\>"* (or paste a draft). Claude fills
+> `blog/_template.html`, saves it as `blog/<slug>.html`, adds a card to `blog/index.html`,
+> commits, and pushes. Live at `/blog/<slug>` in ~20s. You just review.
+
+Doing it by hand:
+1. Copy `blog/_template.html` → `blog/<slug>.html`; fill every `{{PLACEHOLDER}}` (the
+   file's top comment is the checklist). Delete the optional VIDEO/FAQ blocks if unused.
+2. Add a matching `<a class="post-card">` inside `blog/index.html` (newest first).
+3. `git add -A && git commit -m "New post: <slug>" && git push`
+
+**Rules for every post:** complete HTML document; internal links relative & on-site;
+keep `<title>` / meta description / canonical / JSON-LD headline in sync; slug = file name = canonical path.
 
 ## Preview locally
 
@@ -42,5 +60,6 @@ python3 -m http.server 8080   # then visit http://localhost:8080
 
 ## Notes
 
-- Homepage was bootstrapped from `taylor-tabile-homepage.html`. Swap it for a different file anytime — just keep the root file named `index.html`.
-- Later upgrade (Phase 2): a static site generator (Astro) can turn Markdown posts into styled HTML automatically, so publishing becomes "drop a `.md` file and push."
+- Homepage lives at `index.html` — keep the root file named `index.html`.
+- Brand: Oswald + IBM Plex Sans, black (`#111`) / white. New pages should reuse the nav/footer from an existing page so the site stays cohesive.
+- Canonical domain is **taylortabile.net** (repo is public so every push deploys).

@@ -1,0 +1,4 @@
+# Files kept in the repo but NOT deployed to the live site.
+# Underscore-prefixed HTML = internal (templates, scratch), never published.
+**/_*.html
+blog/_template.html

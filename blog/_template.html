@@ -1,0 +1,278 @@
+<!--
+  ============================================================
+  BLOG POST TEMPLATE  ·  taylortabile.net
+  ============================================================
+  This file is NOT published (excluded via .vercelignore).
+  It's the skeleton Claude fills in for each new post.
+
+  CHECKLIST (applied to every post):
+   1. Copy this file to  blog/<slug>.html   (kebab-case slug).
+   2. Fill every {{PLACEHOLDER}}. Slug must match the canonical
+      link and the file name → post serves at /blog/<slug>.
+   3. Links stay ON-SITE and RELATIVE: "/", "/#contact",
+      "/#how-it-works", "/blog", "/marketing-roi-calculator".
+      NEVER hard-code taylortabile.com / .net for internal links.
+   4. Keep the <title>, meta description, canonical, and the
+      BlogPosting JSON-LD in sync (same headline + description).
+   5. Optional blocks (VIDEO, FAQ) — delete the whole block if unused.
+   6. Add a matching <a class="post-card"> to blog/index.html (newest first).
+   7. Commit + push. Live at /blog/<slug> in ~20s. No build step.
+  ============================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} — Taylor Tabile</title>
+<meta name="description" content="{{META_DESCRIPTION}}">
+<link rel="canonical" href="https://taylortabile.net/blog/{{SLUG}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --off-white: #f7f7f5;
+    --mid: #767676;
+    --rule: #e0e0e0;
+    --rule-dark: #2a2a2a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--rule); padding: 0 48px; height: 52px; }
+  .nav-inner { max-width: 1320px; margin: 0 auto; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .nav-name { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--black); text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); text-decoration: none; transition: color 0.15s; white-space: nowrap; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white) !important; background: var(--black); padding: 8px 20px; text-decoration: none; transition: background 0.15s !important; }
+  .nav-cta:hover { background: #333 !important; }
+  /* HERO */
+  .article-hero { padding-top: 52px; background: var(--black); }
+  .hero-inner { max-width: 920px; margin: 0 auto; padding: 80px 48px 64px; }
+  .hero-eyebrow { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 24px; display: block; }
+  .hero-eyebrow a { color: rgba(255,255,255,0.4); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2); transition: color 0.15s, border-color 0.15s; }
+  .hero-eyebrow a:hover { color: var(--white); border-color: var(--white); }
+  h1 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(34px, 4.8vw, 56px); line-height: 1.05; letter-spacing: -0.005em; text-transform: uppercase; color: var(--white); margin-bottom: 24px; }
+  .hero-meta { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 32px; }
+  .hero-meta span { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  /* ARTICLE BODY */
+  article { background: var(--white); padding: 72px 48px 32px; }
+  .article-body { max-width: 720px; margin: 0 auto; font-size: 17px; line-height: 1.75; color: #2a2a2a; font-weight: 300; }
+  .article-body .lead { font-size: 20px; line-height: 1.6; color: var(--black); font-weight: 400; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
+  .article-body p { margin-bottom: 22px; }
+  .article-body h2 { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: clamp(24px, 2.6vw, 30px); letter-spacing: 0.02em; text-transform: uppercase; color: var(--black); margin-top: 56px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--black); line-height: 1.2; }
+  .article-body h3 { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--black); margin-top: 36px; margin-bottom: 14px; line-height: 1.3; }
+  .article-body strong { color: var(--black); font-weight: 500; }
+  .article-body em { font-style: italic; color: #444; }
+  .article-body a { color: var(--black); text-decoration: none; border-bottom: 1px solid var(--black); transition: color 0.15s, border-color 0.15s; }
+  .article-body a:hover { color: var(--mid); border-color: var(--mid); }
+  .article-body ul, .article-body ol { margin: 8px 0 24px 0; padding-left: 0; list-style: none; }
+  .article-body ul li { position: relative; padding: 8px 0 8px 26px; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 1.6; }
+  .article-body ul li:first-child { border-top: 1px solid var(--rule); }
+  .article-body ul li::before { content: ''; position: absolute; left: 0; top: 18px; width: 6px; height: 6px; border-radius: 50%; background: var(--black); }
+  .article-body ol { counter-reset: item; }
+  .article-body ol li { counter-increment: item; position: relative; padding: 12px 0 12px 44px; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 1.6; }
+  .article-body ol li:first-child { border-top: 1px solid var(--rule); }
+  .article-body ol li::before { content: counter(item, decimal-leading-zero); position: absolute; left: 0; top: 12px; font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; color: var(--mid); }
+  .article-body blockquote { margin: 36px 0; padding: 28px 32px; background: var(--off-white); border-left: 4px solid var(--black); font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 400; line-height: 1.4; color: var(--black); text-transform: uppercase; letter-spacing: 0.02em; }
+  .pullquote { margin: 40px 0; padding: 32px 0; border-top: 2px solid var(--black); border-bottom: 2px solid var(--black); text-align: center; }
+  .pullquote p { font-family: 'Oswald', sans-serif; font-size: clamp(20px, 2.2vw, 26px); font-weight: 400; line-height: 1.3; color: var(--black); text-transform: uppercase; letter-spacing: 0.02em; margin: 0; }
+  /* VIDEO (optional) */
+  .article-video { margin: 8px 0 40px; }
+  .video-wrapper { position: relative; width: 100%; max-width: 360px; margin: 0 auto; aspect-ratio: 9 / 16; padding-bottom: 177.78%; height: 0; overflow: hidden; background: var(--black); border-radius: 14px; border: 1px solid var(--rule); }
+  @supports (aspect-ratio: 9 / 16) { .video-wrapper { padding-bottom: 0; height: auto; } }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 14px; }
+  .video-caption { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--mid); margin-top: 12px; letter-spacing: 0.02em; text-align: center; }
+  /* CTA BLOCK */
+  .article-cta { margin-top: 56px; padding: 48px 40px; background: var(--black); color: var(--white); text-align: left; }
+  .cta-label { font-family: 'Oswald', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px; display: block; }
+  .cta-headline { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(24px, 2.6vw, 32px); letter-spacing: 0.02em; text-transform: uppercase; line-height: 1.15; margin-bottom: 18px; }
+  .cta-body { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.65); margin-bottom: 28px; font-weight: 300; max-width: 520px; }
+  .cta-button { display: inline-block; padding: 14px 32px; background: var(--white); color: var(--black) !important; font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none !important; border: none !important; transition: background 0.15s; }
+  .cta-button:hover { background: var(--off-white); color: var(--black) !important; }
+  /* FAQ (optional) */
+  .faq-section { margin-top: 56px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .faq-section h2 { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: clamp(24px, 2.6vw, 30px); letter-spacing: 0.02em; text-transform: uppercase; color: var(--black); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--black); line-height: 1.2; }
+  .faq-item { border-bottom: 1px solid var(--rule); padding: 20px 0; }
+  .faq-item:first-of-type { border-top: 1px solid var(--rule); }
+  .faq-q { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--black); margin-bottom: 10px; line-height: 1.3; }
+  .faq-a { font-size: 15px; line-height: 1.7; color: #444; }
+  /* AUTHOR */
+  .article-foot { max-width: 720px; margin: 56px auto 0; padding-top: 48px; border-top: 1px solid var(--rule); }
+  .author-card { display: flex; gap: 20px; align-items: flex-start; padding: 24px 0; }
+  .author-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex-shrink: 0; filter: grayscale(15%); }
+  .author-name { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--black); margin-bottom: 4px; }
+  .author-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; }
+  .author-bio { font-size: 13px; line-height: 1.7; color: #555; }
+  /* FOOTER */
+  footer { background: var(--black); padding: 32px 48px; border-top: 1px solid var(--rule-dark); margin-top: 64px; }
+  .footer-inner { max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .footer-name { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); }
+  .footer-loc { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.15s; }
+  .footer-links a:hover { color: var(--white); }
+  /* MOBILE */
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--black); }
+  .mobile-menu { display: none; position: fixed; top: 52px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--rule); z-index: 49; padding: 16px 24px 20px; flex-direction: column; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mid); text-decoration: none; padding: 13px 0; border-bottom: 1px solid var(--rule); }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu .mobile-cta { margin-top: 12px; padding: 12px 24px; background: var(--black); color: var(--white) !important; font-family: 'Oswald', sans-serif; font-size: 12px; text-align: center; }
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .hero-inner { padding: 56px 24px 48px; }
+    article { padding: 48px 24px 24px; }
+    .article-cta { padding: 36px 28px; }
+    footer { padding: 24px; }
+    .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-name">Taylor Tabile</a>
+    <ul class="nav-links">
+      <li><a href="/#how-it-works">How It Works</a></li>
+      <li><a href="/#expertise">What I Automate</a></li>
+      <li><a href="/#experience">Experience</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/marketing-roi-calculator">ROI Calculator</a></li>
+      <li><a href="/#contact" class="nav-cta">Book a Free Audit</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/#how-it-works">How It Works</a>
+  <a href="/#expertise">What I Automate</a>
+  <a href="/#experience">Experience</a>
+  <a href="/blog">Blog</a>
+  <a href="/marketing-roi-calculator">ROI Calculator</a>
+  <a href="/#contact" class="mobile-cta">Book a Free Audit</a>
+</div>
+
+<header class="article-hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow"><a href="/blog">← Blog</a> &nbsp;·&nbsp; {{CATEGORY}}</span>
+    <h1>{{TITLE}}</h1>
+    <div class="hero-meta">
+      <span>By Taylor Tabile</span>
+      <span>{{READ_TIME}}</span>
+      <span>{{CATEGORY}}</span>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="article-body">
+
+    <p class="lead">{{LEAD}}</p>
+
+    <!-- OPTIONAL VIDEO — delete this whole block if the post has no video.
+         Replace VIDEO_ID with the YouTube ID (or swap in a LinkedIn embed). -->
+    <div class="article-video">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/{{VIDEO_ID}}" title="{{VIDEO_TITLE}}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+      </div>
+      <p class="video-caption">{{VIDEO_CAPTION}}</p>
+    </div>
+
+    <!-- BODY: use <h2>, <h3>, <p>, <ul>/<ol>, <blockquote>,
+         and <div class="pullquote"><p>…</p></div>. Internal links relative. -->
+    {{BODY_HTML}}
+
+    <!-- Closing CTA (keep on every post) -->
+    <div class="article-cta">
+      <span class="cta-label">Free Consultation</span>
+      <h3 class="cta-headline">{{CTA_HEADLINE}}</h3>
+      <p class="cta-body">{{CTA_BODY}}</p>
+      <a href="/#contact" class="cta-button">Book the Call</a>
+    </div>
+
+  </div>
+
+  <!-- OPTIONAL FAQ — delete if unused. Keep in sync with FAQPage schema if you add it. -->
+  <div class="faq-section">
+    <h2>FAQ</h2>
+    <div class="faq-item">
+      <div class="faq-q">{{FAQ_Q1}}</div>
+      <div class="faq-a">{{FAQ_A1}}</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">{{FAQ_Q2}}</div>
+      <div class="faq-a">{{FAQ_A2}}</div>
+    </div>
+  </div>
+
+  <div class="article-foot">
+    <div class="author-card">
+      <img src="https://assets.cdn.filesafe.space/O5zSOPlKNpWSVWlwzfvq/media/69dda3a41774270f1d9b5b73.png" alt="Taylor Tabile" class="author-img">
+      <div>
+        <div class="author-name">Taylor Tabile</div>
+        <div class="author-title">Marketing Automation Consultant · Layton, Utah</div>
+        <p class="author-bio">10+ years building real campaigns across SEO, paid ads, lead generation, and CRM automation. Co-Founder of North Vista Marketing. Writes about what's actually working — not what makes a good headline.</p>
+      </div>
+    </div>
+  </div>
+</article>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Taylor Tabile</span>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <span class="footer-loc">Layton, Utah</span>
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{TITLE}}",
+  "description": "{{META_DESCRIPTION}}",
+  "author": { "@type": "Person", "name": "Taylor Tabile", "url": "https://taylortabile.net/" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Taylor Tabile",
+    "logo": { "@type": "ImageObject", "url": "https://assets.cdn.filesafe.space/O5zSOPlKNpWSVWlwzfvq/media/69b3493d005051157c3f893d.png" }
+  },
+  "mainEntityOfPage": "https://taylortabile.net/blog/{{SLUG}}",
+  "keywords": "{{KEYWORDS}}"
+}
+</script>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+  }
+</script>
+</body>
+</html>

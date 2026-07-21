@@ -3,51 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blog — Taylor Tabile | Marketing Consultant</title>
-<meta name="description" content="Notes on marketing systems, paid advertising, SEO, and lead generation from Taylor Tabile.">
+<title>Blog — Taylor Tabile | Marketing Automation Consultant</title>
+<meta name="description" content="Straight-talk articles on automating your marketing with AI — what to automate first, how to connect your tools, and how to make decisions from data.">
+<link rel="canonical" href="https://taylortabile.net/blog">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#12213a; --muted:#5b6b82; --accent:#2590eb; --line:#e6ebf2; --bg:#ffffff; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:'IBM Plex Sans',system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.6; }
-  .wrap { max-width:760px; margin:0 auto; padding:64px 24px 96px; }
-  a { color:var(--accent); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  .back { font-size:.85rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
-  h1 { font-family:'Oswald',sans-serif; font-weight:600; font-size:2.6rem; letter-spacing:-.01em; margin:.4em 0 .1em; }
-  .sub { color:var(--muted); font-size:1.05rem; margin:0 0 48px; }
-  .posts { list-style:none; margin:0; padding:0; }
-  .post { padding:24px 0; border-top:1px solid var(--line); }
-  .post:last-child { border-bottom:1px solid var(--line); }
-  .post h2 { font-family:'Oswald',sans-serif; font-weight:500; font-size:1.4rem; margin:0 0 .2em; }
-  .post .date { display:block; font-size:.8rem; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:.3em; }
-  .post p { margin:.2em 0 0; color:var(--muted); }
-  .empty { color:var(--muted); font-style:italic; padding:32px 0; border-top:1px solid var(--line); }
-  footer { margin-top:64px; font-size:.85rem; color:var(--muted); }
+  :root {
+    --black: #111111;
+    --white: #ffffff;
+    --off-white: #f7f7f5;
+    --mid: #767676;
+    --rule: #e0e0e0;
+    --rule-dark: #2a2a2a;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--white);
+    color: var(--black);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 48px;
+    height: 52px;
+  }
+  .nav-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .nav-cta {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white) !important;
+    background: var(--black);
+    padding: 8px 20px;
+    text-decoration: none;
+    transition: background 0.15s !important;
+  }
+  .nav-cta:hover { background: #333 !important; }
+  /* HERO */
+  .blog-hero {
+    padding-top: 52px;
+    background: var(--black);
+  }
+  .blog-hero-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 72px 48px 56px;
+  }
+  .blog-eyebrow {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .blog-hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .blog-hero p {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.55);
+    max-width: 560px;
+  }
+  /* POSTS */
+  .posts-section { padding: 64px 48px 88px; }
+  .posts-inner { max-width: 1320px; margin: 0 auto; }
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .post-card {
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--white);
+    transition: background 0.2s;
+    min-height: 240px;
+  }
+  .post-card:hover { background: var(--off-white); }
+  .post-tags {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .post-tag {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+    border: 1px solid var(--rule);
+    padding: 4px 10px;
+  }
+  .post-card h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: clamp(20px, 2.2vw, 26px);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    line-height: 1.15;
+    color: var(--black);
+    margin-bottom: 14px;
+  }
+  .post-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .post-readmore {
+    margin-top: auto;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .post-card:hover .post-readmore { gap: 12px; }
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    padding: 32px 48px;
+    border-top: 1px solid var(--rule-dark);
+  }
+  .footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .footer-loc {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .footer-links a:hover { color: var(--white); }
+  /* MOBILE */
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--black); }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 52px; left: 0; right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    z-index: 49;
+    padding: 16px 24px 20px;
+    flex-direction: column;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu .mobile-cta {
+    margin-top: 12px;
+    padding: 12px 24px;
+    background: var(--black);
+    color: var(--white) !important;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .blog-hero-inner { padding: 52px 24px 44px; }
+    .posts-section { padding: 44px 24px 64px; }
+    .posts-grid { grid-template-columns: 1fr; }
+    footer { padding: 24px; }
+    .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+  }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <a class="back" href="/">&larr; Taylor Tabile</a>
-    <h1>Blog</h1>
-    <p class="sub">Notes on building marketing systems that stop the budget bleed.</p>
 
-    <ul class="posts">
-      <!--
-        TO ADD A POST:
-        1. Create a file like  blog/my-post-title.html
-        2. Copy one <li> block below, point the link at it, update title/date/blurb
-        3. git add -A && git commit -m "New post" && git push   →  live in ~20s
-      -->
-      <li class="post">
-        <span class="date">Coming soon</span>
-        <h2><a href="/blog/welcome.html">Welcome — this blog is just getting started</a></h2>
-        <p>Replace this with your first real post. Delete the file <code>blog/welcome.html</code> and this entry once you publish for real.</p>
-      </li>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-name">Taylor Tabile</a>
+    <ul class="nav-links">
+      <li><a href="/#how-it-works">How It Works</a></li>
+      <li><a href="/#expertise">What I Automate</a></li>
+      <li><a href="/#experience">Experience</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/marketing-roi-calculator">ROI Calculator</a></li>
+      <li><a href="/#contact" class="nav-cta">Book a Free Audit</a></li>
     </ul>
-
-    <footer>&copy; Taylor Tabile · North Vista Marketing</footer>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="/#how-it-works">How It Works</a>
+  <a href="/#expertise">What I Automate</a>
+  <a href="/#experience">Experience</a>
+  <a href="/blog">Blog</a>
+  <a href="/marketing-roi-calculator">ROI Calculator</a>
+  <a href="/#contact" class="mobile-cta">Book a Free Audit</a>
+</div>
+
+<header class="blog-hero">
+  <div class="blog-hero-inner">
+    <span class="blog-eyebrow">From the Blog</span>
+    <h1>Marketing on Autopilot</h1>
+    <p>Straight-talk articles on automating your marketing with AI — what to automate first, how to connect your tools, and how to build a system you can actually make decisions from. Written for business owners, not other marketers.</p>
+  </div>
+</header>
+
+<section class="posts-section">
+  <div class="posts-inner">
+    <div class="posts-grid">
+
+      <!-- POST CARD — newest first. Copy this block for each new post. -->
+      <a class="post-card" href="/blog/how-to-use-ai-in-marketing">
+        <div class="post-tags">
+          <span class="post-tag">Thought Leadership</span>
+          <span class="post-tag">5 min read</span>
+        </div>
+        <h2>How to Use AI in Marketing Without Sounding Like Everyone Else</h2>
+        <p>Everyone has the same AI now. The edge isn't the tool — it's giving it real context. How to use AI like a journal, not a whiteboard.</p>
+        <span class="post-readmore">Read the post →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Taylor Tabile</span>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <span class="footer-loc">Layton, Utah</span>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+    });
+  }
+</script>
 </body>
 </html>
