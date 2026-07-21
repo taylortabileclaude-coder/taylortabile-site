@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing ROI Calculator — Taylor Tabile</title>
+  <meta name="description" content="See exactly what your ad spend and retainer should return. Enter your numbers and get an instant breakdown of ROI, cost per conversion, and where your budget goes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #111111;
+      --white: #ffffff;
+      --off-white: #f7f7f5;
+      --mid: #767676;
+      --rule: #e0e0e0;
+      --rule-dark: #2a2a2a;
+      --green: #1D9E75;
+      --green-bg: #E1F5EE;
+      --green-text: #085041;
+      --red: #A32D2D;
+      --red-bg: #FCEBEB;
+      --red-text: #791F1F;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: var(--white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 48px;
+      height: 52px;
+    }
+    .nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-name {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--black); }
+    .nav-cta {
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white) !important;
+      background: var(--black);
+      padding: 8px 20px;
+      text-decoration: none;
+      transition: background 0.15s !important;
+    }
+    .nav-cta:hover { background: #333 !important; }
+
+    /* HERO BANNER */
+    .page-hero {
+      padding-top: 52px;
+      background: var(--black);
+    }
+    .page-hero-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 52px 48px 48px;
+    }
+    .page-eyebrow {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block;
+      margin-bottom: 14px;
+    }
+    .page-headline {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(32px, 4.5vw, 60px);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .page-subhead {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+      max-width: 560px;
+    }
+
+    /* MAIN LAYOUT */
+    .calc-section {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--rule);
+      padding: 0;
+    }
+    .calc-grid {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+
+    /* LEFT — INPUTS */
+    .inputs-col {
+      padding: 48px;
+      border-right: 1px solid var(--rule);
+      background: var(--white);
+    }
+    .col-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: block;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--black);
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .input-row:first-child { padding-top: 0; }
+    .input-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .input-row label {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+    .input-row input {
+      width: 100%;
+      padding: 10px 14px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--rule);
+      background: var(--off-white);
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      -moz-appearance: textfield;
+    }
+    .input-row input::-webkit-outer-spin-button,
+    .input-row input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .input-row input:focus {
+      border-color: var(--black);
+      background: var(--white);
+    }
+
+    /* RIGHT — RESULTS */
+    .results-col {
+      padding: 48px;
+      background: var(--off-white);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* NET RETURN HERO */
+    .return-hero {
+      border: 1px solid var(--rule);
+      background: var(--white);
+      padding: 32px 32px 28px;
+      margin-bottom: 1px;
+    }
+    .return-hero-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .return-big {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--green);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .return-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .roi-badge {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      background: var(--green-bg);
+      color: var(--green-text);
+    }
+    .return-sub {
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--mid);
+      text-transform: uppercase;
+    }
+
+    /* STAT ROW */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--rule);
+      border-top: none;
+      background: var(--white);
+      margin-bottom: 24px;
+    }
+    .stat-cell {
+      padding: 20px 24px;
+      border-right: 1px solid var(--rule);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-cell .sl {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .stat-cell .sv {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 0.02em;
+      color: var(--black);
+      display: block;
+    }
+
+    /* BREAKDOWN */
+    .breakdown-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      display: block;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .stacked-bar {
+      height: 6px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--rule);
+    }
+    .stacked-bar div { height: 100%; transition: width 0.35s; }
+    .brow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 13px;
+    }
+    .brow:last-child { border-bottom: none; }
+    .brow .bk {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--mid);
+      letter-spacing: 0.04em;
+    }
+    .brow.total .bk {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+      font-weight: 500;
+    }
+    .brow .bv {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: var(--black);
+    }
+    .brow.total .bv { font-size: 18px; }
+    .dot { width: 8px; height: 8px; flex-shrink: 0; }
+
+    /* CTA STRIP */
+    .cta-strip {
+      background: var(--black);
+      padding: 40px 48px;
+      border-top: 1px solid var(--rule-dark);
+    }
+    .cta-strip-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .cta-strip-text {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 2.5vw, 28px);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .cta-strip-text span {
+      color: rgba(255,255,255,0.3);
+      font-weight: 300;
+      display: block;
+      font-size: 0.6em;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .cta-btn:hover { background: var(--off-white); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 24px 48px;
+      border-top: 1px solid var(--rule-dark);
+    }
+    .footer-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-name {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .footer-loc {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+    .footer-socials a:hover { color: var(--black); background: var(--white); border-color: var(--white); }
+    .footer-socials svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .page-hero-inner { padding: 40px 24px 36px; }
+      .calc-grid { grid-template-columns: 1fr; border: none; }
+      .inputs-col { border-right: none; border-bottom: 1px solid var(--rule); padding: 32px 24px; }
+      .results-col { padding: 32px 24px; }
+      .cta-strip { padding: 32px 24px; }
+      footer { padding: 20px 24px; }
+      .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+      .stat-strip { grid-template-columns: 1fr 1fr; }
+      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell:nth-child(3) { border-top: 1px solid var(--rule); border-right: none; grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-name">Taylor Tabile</a>
+    <ul class="nav-links">
+      <li><a href="/#how-it-works">How It Works</a></li>
+      <li><a href="/#expertise">What I Automate</a></li>
+      <li><a href="/#experience">Experience</a></li>
+      <li><a href="/#contact" class="nav-cta">Book a Free Audit</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-eyebrow">Free Tool · North Vista Marketing</span>
+    <h1 class="page-headline">Marketing ROI Calculator</h1>
+    <p class="page-subhead">Enter your retainer, ad spend, and conversion numbers. See exactly what your investment should return — and where every dollar goes.</p>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="calc-section">
+  <div class="calc-grid">
+
+    <!-- INPUTS -->
+    <div class="inputs-col">
+      <span class="col-label">Your Numbers</span>
+      <div class="input-group">
+        <div class="input-row">
+          <label>Monthly Retainer ($)</label>
+          <input type="number" id="retainer" value="3000" min="0" step="100">
+        </div>
+        <div class="input-row">
+          <label>Monthly Ad Spend ($)</label>
+          <input type="number" id="adspend" value="10000" min="0" step="500">
+        </div>
+        <div class="input-row">
+          <label>Management Fee (% of Ad Spend)</label>
+          <input type="number" id="mgmtpct" value="15" min="0" max="100" step="1">
+        </div>
+        <div class="input-row">
+          <label>Customer Lifetime Value ($)</label>
+          <input type="number" id="clv" value="5000" min="0" step="100">
+        </div>
+        <div class="input-row">
+          <label>Monthly Conversions</label>
+          <input type="number" id="conversions" value="6" min="0" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-col">
+
+      <div class="return-hero">
+        <span class="return-hero-label">Net Monthly Return</span>
+        <span class="return-big" id="roi-dollar">—</span>
+        <div class="return-meta">
+          <span class="roi-badge" id="roi-badge">— ROI</span>
+          <span class="return-sub">Revenue minus total investment</span>
+        </div>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat-cell">
+          <span class="sl">Revenue Generated</span>
+          <span class="sv" id="stat-rev">—</span>
+        </div>
+        <div class="stat-cell">
+          <span class="sl">Total Investment</span>
+          <span class="sv" id="stat-invest">—</span>
+        </div>
+        <div class="stat-cell">
+          <span class="sl">Cost Per Conversion</span>
+          <span class="sv" id="stat-cpa">—</span>
+        </div>
+      </div>
+
+      <span class="breakdown-label">Cost Breakdown</span>
+      <div class="stacked-bar">
+        <div id="bar-r" style="background:#111111;"></div>
+        <div id="bar-m" style="background:#767676;"></div>
+        <div id="bar-a" style="background:#d0d0d0;"></div>
+      </div>
+      <div class="brow">
+        <span class="bk"><span class="dot" style="background:#111111;"></span>Monthly retainer</span>
+        <span class="bv" id="b-ret">—</span>
+      </div>
+      <div class="brow">
+        <span class="bk"><span class="dot" style="background:#767676;"></span>Management fee</span>
+        <span class="bv" id="b-mgmt">—</span>
+      </div>
+      <div class="brow">
+        <span class="bk"><span class="dot" style="background:#d0d0d0;"></span>Ad spend (media)</span>
+        <span class="bv" id="b-ads">—</span>
+      </div>
+      <div class="brow total" style="padding-top:14px; margin-top:4px; border-top: 1px solid #111; border-bottom:none;">
+        <span class="bk">Total monthly outlay</span>
+        <span class="bv" id="b-total">—</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div class="cta-strip-inner">
+    <div class="cta-strip-text">
+      <span>Ready to see these numbers in your business?</span>
+      Let's build the plan.
+    </div>
+    <a href="/#contact" class="cta-btn">Get a Free Strategy Call</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">Taylor Tabile</span>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/taylor-tabile-0275b711b/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/taylortabilemarketing/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.34 4.14.63a5.87 5.87 0 0 0-2.13 1.38A5.87 5.87 0 0 0 .63 4.14C.34 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.06 1.27.27 2.15.56 2.91.3.78.7 1.44 1.38 2.13a5.87 5.87 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.27 2.91-.56a5.87 5.87 0 0 0 2.13-1.38 5.87 5.87 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.27-2.15-.56-2.91a5.87 5.87 0 0 0-1.38-2.13A5.87 5.87 0 0 0 19.86.63C19.1.34 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+      </a>
+      <a href="https://x.com/taylortabile" target="_blank" rel="noopener" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+    <span class="footer-loc">Layton, Utah — Marketing Automation Consultant</span>
+  </div>
+</footer>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => '$' + Math.round(n).toLocaleString();
+
+  function calc() {
+    const retainer    = parseFloat($('retainer').value)    || 0;
+    const adspend     = parseFloat($('adspend').value)     || 0;
+    const mgmtpct     = parseFloat($('mgmtpct').value)     || 0;
+    const clv         = parseFloat($('clv').value)         || 0;
+    const conversions = parseFloat($('conversions').value) || 0;
+
+    const mgmtFee     = adspend * (mgmtpct / 100);
+    const totalOutlay = retainer + mgmtFee + adspend;
+    const revenue     = conversions * clv;
+    const netReturn   = revenue - totalOutlay;
+    const roi         = totalOutlay > 0 ? (netReturn / totalOutlay) * 100 : 0;
+    const cpa         = conversions > 0 ? totalOutlay / conversions : 0;
+
+    const pos = netReturn >= 0;
+
+    $('roi-dollar').textContent = (pos ? '' : '-') + '$' + Math.abs(Math.round(netReturn)).toLocaleString();
+    $('roi-dollar').style.color = pos ? '#1D9E75' : '#A32D2D';
+
+    $('roi-badge').textContent        = Math.round(roi) + '% ROI';
+    $('roi-badge').style.background   = pos ? '#E1F5EE' : '#FCEBEB';
+    $('roi-badge').style.color        = pos ? '#085041' : '#791F1F';
+
+    $('stat-rev').textContent    = fmt(revenue);
+    $('stat-invest').textContent = fmt(totalOutlay);
+    $('stat-cpa').textContent    = cpa > 0 ? fmt(cpa) : '—';
+
+    $('b-ret').textContent   = fmt(retainer);
+    $('b-mgmt').textContent  = fmt(mgmtFee);
+    $('b-ads').textContent   = fmt(adspend);
+    $('b-total').textContent = fmt(totalOutlay);
+
+    if (totalOutlay > 0) {
+      $('bar-r').style.width = (retainer / totalOutlay * 100) + '%';
+      $('bar-m').style.width = (mgmtFee  / totalOutlay * 100) + '%';
+      $('bar-a').style.width = (adspend  / totalOutlay * 100) + '%';
+    }
+  }
+
+  document.querySelectorAll('input').forEach(el => el.addEventListener('input', calc));
+  calc();
+</script>
+</body>
+</html>
